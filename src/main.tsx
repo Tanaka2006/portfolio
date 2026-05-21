@@ -1,16 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import {
-  BatteryCharging,
-  Blocks,
-  HeartHandshake,
-  Lightbulb,
-  MousePointer2,
-  Orbit,
-  Rocket,
-  Sparkles,
-  Zap,
-} from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import type { MotionStyle } from "framer-motion";
 import "./styles.css";
@@ -31,6 +20,96 @@ type Project = {
   href: string;
 };
 
+type IconProps = React.SVGProps<SVGSVGElement> & { size?: number | string };
+
+function LineIcon({ size = 24, children, ...props }: IconProps & { children: React.ReactNode }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      {children}
+    </svg>
+  );
+}
+
+const BatteryCharging = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" />
+    <path d="M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1" />
+    <path d="m11 7-3 5h4l-3 5" />
+    <path d="M22 11v2" />
+  </LineIcon>
+);
+
+const Blocks = (props: IconProps) => (
+  <LineIcon {...props}>
+    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+    <rect x="8.5" y="14" width="7" height="7" rx="1.5" />
+  </LineIcon>
+);
+
+const HeartHandshake = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="M19.5 12.5 12 20l-7.5-7.5a5 5 0 0 1 7-7l.5.5.5-.5a5 5 0 0 1 7 7Z" />
+    <path d="m8 12 2 2 4-4" />
+  </LineIcon>
+);
+
+const Lightbulb = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="M9 18h6" />
+    <path d="M10 22h4" />
+    <path d="M8.5 14.5a6 6 0 1 1 7 0c-.7.5-.9 1.3-.9 2H9.4c0-.7-.2-1.5-.9-2Z" />
+  </LineIcon>
+);
+
+const MousePointer2 = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="m4 3 7.5 18 2.5-7 7-2.5Z" />
+  </LineIcon>
+);
+
+const Orbit = (props: IconProps) => (
+  <LineIcon {...props}>
+    <circle cx="12" cy="12" r="3" />
+    <ellipse cx="12" cy="12" rx="9" ry="4.2" transform="rotate(-28 12 12)" />
+    <ellipse cx="12" cy="12" rx="9" ry="4.2" transform="rotate(28 12 12)" />
+  </LineIcon>
+);
+
+const Rocket = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="M4.5 16.5c-1.3 1.1-2 2.7-2 5 2.3 0 3.9-.7 5-2" />
+    <path d="M9 15 6 12c2.3-5.4 6.9-8.8 13.5-9.5-.7 6.6-4.1 11.2-9.5 13.5Z" />
+    <path d="M9 15 7.5 20l5-1.5" />
+    <circle cx="15" cy="7.5" r="1.5" />
+  </LineIcon>
+);
+
+const Sparkles = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />
+    <path d="m5 3 .7 2.3L8 6l-2.3.7L5 9l-.7-2.3L2 6l2.3-.7Z" />
+    <path d="m19 15 .7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7Z" />
+  </LineIcon>
+);
+
+const Zap = (props: IconProps) => (
+  <LineIcon {...props}>
+    <path d="M13 2 4 14h7l-1 8 9-12h-7Z" />
+  </LineIcon>
+);
+
 const accents: Record<Accent, { bg: string; ink: string; depth: string; soft: string }> = {
   blue: { bg: "#3b82f6", ink: "#ffffff", depth: "#1d4ed8", soft: "#dbeafe" },
   orange: { bg: "#fb923c", ink: "#3b1900", depth: "#c2410c", soft: "#ffedd5" },
@@ -45,86 +124,137 @@ const navItems = ["About", "Projects", "Skills", "Vision", "Contact"];
 const projects: Project[] = [
   {
     title: "ToDo Calendar",
-    subtitle: "毎日のタスクを、触りたくなる予定表へ。",
+    subtitle: "達成感が、少しずつ積み上がるToDo体験。",
     accent: "blue",
     preview: "calendar",
-    image: "/assets/generated/project-01-card-redesign.png",
-    tags: ["React", "TypeScript", "Vite", "Local state"],
+    image: "/assets/generated/project-01-app-visual.png",
+    tags: ["React", "TypeScript", "Vite", "UI/UX"],
+
     intention:
-      "予定とToDoが別々になる小さな不便を、学生の生活リズムに沿って整理するためのカレンダーUI。",
-    ux: "進捗リング、繰り返しタスク、目標入力を一画面にまとめ、達成感が見える導線を意識。",
-    outcome: "タスク管理を作業ではなく、今日を組み立てる感覚に近づけることを目指しました。",
+      "『ToDoが続かない』という感覚に対して、タスク管理を“継続の体験設計”として捉え直し、達成感が自然に積み上がって見えるUIを目指して開発。",
+
+    ux:
+      "進捗リングとカレンダーを組み合わせ、日々の達成率を視覚化。前日・翌日への軽い移動導線や、繰り返しタスクの記録設計によって、“振り返りたくなる”操作感を意識。",
+
+    outcome:
+      "タスクを並べるだけではなく、『続いていること』や『積み上がっている感覚』が自然に残る、触りたくなるToDo体験を目指しました。",
+
     icon: BatteryCharging,
+
     href: "https://github.com/Tanaka2006/ToDo",
+
   },
   {
     title: "Campus Board",
-    subtitle: "学生同士の情報交換を、安心して使える場所に。",
-    accent: "orange",
+    subtitle: "授業選びの“不安”を、迷わず探せる体験へ。",
+    accent: "pink",
     preview: "board",
-    image: "/assets/generated/project-02-card-redesign.png",
-    tags: ["React Native", "Expo", "Search", "Reviews"],
+    image: "/assets/generated/project-02-app-visual.png",
+
+    tags: ["React Native", "Expo", "Supabase", "UI/UX"],
+
     intention:
-      "授業や教授に関する情報が散らばる課題に対して、必要な人が必要な時に探せる掲示板を構想。",
-    ux: "投稿、検索、ランキング、ログインを想定し、信頼できる情報に早くたどり着ける体験を設計。",
-    outcome: "学生目線の不安や迷いを減らす、生活に近いプロダクトとして育てています。",
+      "履修選択で本当に欲しいのは『授業データ』だけではなく、“受けた人の体感”だと感じ、口コミを迷わず探して、気軽に投稿できる学生向けレビュー体験を目指して開発。",
+
+    ux:
+      "口コミ投稿を3ステップに分割し、入力負荷を軽減。検索導線を先に設計することで、『まず授業が見つかる』体験を重視し、学生が自然に情報交換できるUIを意識。",
+
+    outcome:
+      "完成だけではなく、試作→改善の過程も残しながら、『学生が安心して授業選択できる導線』をテーマにUI/UXを試行錯誤したプロダクトです。",
+
     icon: HeartHandshake,
+
     href: "https://github.com/Tanaka2006/keizibannzaka25",
+
   },
   {
     title: "jijii_news",
-    subtitle: "通知が届く瞬間まで、体験として設計する。",
-    accent: "green",
+    subtitle: "“ニュースを開く”最初のきっかけを設計する。",
+    accent: "orange",
     preview: "news",
-    image: "/assets/generated/project-03-card-redesign.png",
-    tags: ["Next.js", "Web Push", "Vercel KV", "PWA"],
+    image: "/assets/generated/project-03-app-visual.png",
+
+    tags: ["Next.js", "Web Push", "TypeScript", "UX Design"],
+
     intention:
-      "情報を開きに行く前提ではなく、必要なニュースが自然に届く流れをWeb Pushで実験。",
-    ux: "スマホ閲覧、通知許可、再訪問の心理的ハードルまで含めて、軽い接点を大切にしました。",
-    outcome: "フロントエンドだけでなく、通知というプロダクト体験の入口を学ぶ制作です。",
+      "『ニュースを見なきゃと思っているのに、結局見ない』という学生の行動に対して、“読む前の最初の一歩”を生み出す体験設計をテーマに開発したハッカソンプロダクト。",
+
+    ux:
+      "アカウント登録不要にすることで触り始めるハードルを下げ、通知文面を“おじさん構文”に変換することで、『少し気になって開いてしまう』導線を設計。短時間で理解できる3カードUIやAIチャットも組み込み、継続しやすいニュース接触を意識。",
+
+    outcome:
+      "機能を増やすよりも、『ユーザーが行動を起こすまで』を設計する重要性を学び、通知・再訪問・理解補助まで含めたUX設計に挑戦したプロダクトです。",
+
     icon: Zap,
+
     href: "https://github.com/Tanaka2006/jijii_news",
+
   },
   {
     title: "Arupaka Calendar",
-    subtitle: "予定管理に、少しだけ愛着が生まれる操作感を。",
-    accent: "pink",
+    subtitle: "迷わず触れて、自然に予定を整理できるカレンダー体験。",
+    accent: "green",
     preview: "lab",
-    image: "/assets/generated/project-04-card-redesign.png",
-    tags: ["Next.js", "TypeScript", "Calendar", "UI logic"],
+    image: "/assets/generated/project-04-app-visual.png",
+
+    tags: ["Next.js", "TypeScript", "Tailwind", "Mobile UX"],
+
     intention:
-      "カレンダー操作の分かりやすさと、画面を開きたくなる親しみやすさを両立する練習として制作。",
-    ux: "日付選択、状態表示、予定の見え方を整理し、迷わず触れる情報密度を探りました。",
-    outcome: "機能の正しさだけでなく、使っている時の気分まで作れるエンジニアを目指す一歩です。",
+      "大学生の予定管理は情報が混線しやすいと感じ、『パッと見て状況を把握できて、迷わず次へ進める』モバイル向けカレンダー体験を目指して設計・実装。",
+
+    ux:
+      "片手操作を前提に情報密度を調整し、日付タップ→日別表示への自然な導線を設計。学年暦の表示状態や予定データを保持することで、『状態が続く安心感』も意識しました。",
+
+    outcome:
+      "高機能さよりも、『見やすさ』『操作の軽さ』『文脈が切れない体験』を重視し、学生生活に自然に馴染むカレンダーUIを探求したプロダクトです。",
+
     icon: Orbit,
+
     href: "https://github.com/Tanaka2006/Arupaka_calendar_web",
+
   },
 ];
 
 const strengths = [
-  { label: "観察", text: "使う人の小さな迷いを拾い、UIの形に戻す。", icon: MousePointer2, accent: "blue" as Accent },
-  { label: "実装", text: "React / TypeScriptで、触って分かる状態を早く作る。", icon: Blocks, accent: "green" as Accent },
-  { label: "感情", text: "便利さだけでなく、操作後の気持ちよさまで考える。", icon: Sparkles, accent: "pink" as Accent },
+  { label: "観察", text: "日常の小さな違和感を拾い、「なんで触りにくいんだろう？」を考える。", icon: MousePointer2, accent: "blue" as Accent },
+  { label: "実装", text: "思いついたらすぐ作る。React / TypeScript を使って、体験を素早く形にする。", icon: Blocks, accent: "green" as Accent },
+  { label: "感情", text: "便利さだけではなく、「触っていて好き」だと思える感覚まで設計する。", icon: Sparkles, accent: "pink" as Accent },
 ];
 
 const skills = [
-  ["Frontend", "React", "TypeScript", "Next.js", "Vite", "Tailwind CSS"],
-  ["Mobile / App", "React Native", "Expo", "PWA", "Web Push", "LocalStorage"],
-  ["Experience", "UI設計", "プロトタイピング", "情報設計", "マイクロインタラクション", "改善観察"],
-  ["Engineering", "GitHub", "API連携", "状態管理", "アクセシビリティ", "README整理"],
+  {
+    title: "Languages",
+    items: ["TypeScript / TSX", "JavaScript", "C", "C++", "Python"],
+  },
+  {
+    title: "Frontend",
+    items: ["React", "Next.js", "Vite", "Tailwind CSS"],
+  },
+  {
+    title: "Mobile / App",
+    items: ["React Native", "Expo"],
+  },
+  {
+    title: "Backend / Database",
+    items: ["Supabase"],
+  },
+  {
+    title: "Tools",
+    items: ["GitHub", "Vercel", "Figma"],
+  },
+  {
+    title: "Interest / Curiosity",
+    items: ["UI/UX", "制御", "組み込み", "ハードウェア", "触れる体験設計"],
+  },
 ];
 
 const processSteps = [
   { title: "Problem", text: "誰の、どんな場面の、どんな小さな詰まりを減らしたいかを言葉にする。" },
-  { title: "Prototype", text: "画面と操作を先に触れる形へ。気持ちよいフィードバックがあるか確認する。" },
-  { title: "Polish", text: "動き、余白、文言、状態表示を整えて、使う前より少し前向きな体験にする。" },
+  { title: "Prototype", text: "まず触れる形を作って、実際に使いながら操作や導線を調整する。" },
+  { title: "Polish", text: "余白、動き、文言、状態表示を整えて、迷わず使える画面に近づける。" },
 ];
 
-const studioNotes = [
-  { label: "Design", value: "触って分かるUI", accent: "pink" as Accent },
-  { label: "Build", value: "Reactで早く形に", accent: "blue" as Accent },
-  { label: "Care", value: "使う人の気分まで", accent: "green" as Accent },
-];
+
 
 const HEXES = "3b82f61d4ed822c55e15803def4444b91c1cff6a00cc5500ffc800cca00014b8a60f766edb3b7cb02e649356d46b3fa13341551e293bffbf00cc9900ffffffd3e2ef".match(
   /.{6}/g,
@@ -283,7 +413,15 @@ function TactileButton({
   );
 }
 
-function SectionTitle({ kicker, title, text }: { kicker: string; title: string; text?: string }) {
+function SectionTitle({
+  kicker,
+  title,
+  text,
+}: {
+  kicker: string;
+  title: React.ReactNode;
+  text?: React.ReactNode;
+}) {
   return (
     <motion.div
       className="section-title"
@@ -299,129 +437,17 @@ function SectionTitle({ kicker, title, text }: { kicker: string; title: string; 
   );
 }
 
-function ProjectPreview({ type }: { type: Project["preview"] }) {
-  if (type === "calendar") {
-    return (
-      <div className="preview-ui preview-calendar">
-        <div className="calendar-month-card">
-          <div className="calendar-title-row">
-            <span>‹</span>
-            <strong>May 2026</strong>
-            <span>›</span>
-          </div>
-          <div className="calendar-week-row">
-            {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => (
-              <span key={day}>{day}</span>
-            ))}
-          </div>
-          <div className="calendar-ring-row">
-            {[18, 19, 20, 21, 22].map((day, index) => (
-              <div key={day} className={index === 1 ? "day-ring is-today" : "day-ring"}>
-                <i />
-                <span>{day}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="completion-badge" aria-label="Completion Rate 52%">
-          <div className="completion-ring">
-            <span>52%</span>
-          </div>
-          <small>Completion</small>
-        </div>
-
-        <div className="task-float-card">
-          <div className="task-date-row">
-            <span>‹</span>
-            <strong>May, 18</strong>
-            <span>›</span>
-          </div>
-          <div>
-            <label>
-              <i />
-              新しい項目
-            </label>
-            <label className="is-done">
-              <i />
-              新しい項目
-            </label>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "board") {
-    return (
-      <div className="preview-ui preview-board">
-        <div className="search-pill">
-          <span />
-          授業を探す
-        </div>
-        <div className="board-list">
-          {["教授レビュー", "課題の量", "おすすめ"].map((item, index) => (
-            <div key={item} className="board-row">
-              <strong>0{index + 1}</strong>
-              <span>{item}</span>
-              <i />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "news") {
-    return (
-      <div className="preview-ui preview-news">
-        <div className="phone-shell">
-          <div className="notify-card">
-            <span />
-            <div>
-              <strong>News Push</strong>
-              <small>必要な情報だけ届く</small>
-            </div>
-          </div>
-          <div className="toggle-track">
-            <span />
-          </div>
-          <div className="wave-row">
-            <i />
-            <i />
-            <i />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="preview-ui preview-lab">
-      <div className="circuit-board">
-        <span className="node-a" />
-        <span className="node-b" />
-        <span className="node-c" />
-        <i />
-      </div>
-      <div className="lab-controls">
-        <span />
-        <span />
-        <span />
-      </div>
-      <strong>Interaction Tune</strong>
-    </div>
-  );
-}
 
 function MagneticProjectCard({ project, index }: { project: Project; index: number }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 180, damping: 18 });
   const springY = useSpring(y, { stiffness: 180, damping: 18 });
-  const rotateX = useTransform(springY, [-22, 22], [2.5, -2.5]);
-  const rotateY = useTransform(springX, [-22, 22], [-2.5, 2.5]);
+  const rotateX = useTransform(springY, [-22, 22], [1.5, -1.5]);
+  const rotateY = useTransform(springX, [-22, 22], [-1.5, 2.5]);
   const color = accents[project.accent];
+  const Icon = project.icon;
 
   return (
     <motion.article
@@ -443,18 +469,57 @@ function MagneticProjectCard({ project, index }: { project: Project; index: numb
       transition={{ delay: index * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       onPointerMove={(event) => {
         const rect = event.currentTarget.getBoundingClientRect();
-        x.set((event.clientX - rect.left - rect.width / 2) / 18);
-        y.set((event.clientY - rect.top - rect.height / 2) / 22);
+        x.set((event.clientX - rect.left - rect.width / 2) / 30);
+        y.set((event.clientY - rect.top - rect.height / 2) / 30);
       }}
       onPointerLeave={() => {
         x.set(0);
         y.set(0);
       }}
-      whileHover={{ y: -8 }}
     >
-      <a className="project-visual-link" href={project.href} target="_blank" rel="noreferrer" aria-label={`${project.title} repository`}>
-        <img className="project-card-visual" src={project.image} alt={`${project.title} portfolio visual`} />
-      </a>
+      <div
+        className="project-card-inner"
+        style={{
+          '--accent-main': color.bg,
+          '--accent-soft': color.soft
+        } as React.CSSProperties}
+      >
+        <div className="project-visual-preview">
+          <div className="preview-container">
+            <img className="project-app-image" src={project.image} alt={`${project.title} app visual`} />
+          </div>
+        </div>
+
+        <div className="project-info">
+          <p className="project-kicker">PROJECT 0{index + 1}</p>
+          <div className="project-subtitle-pill">
+            <Icon size={16} />
+            <span>{project.subtitle}</span>
+          </div>
+          <h3>{project.title}</h3>
+
+          <div className="project-details">
+            <div className="ux-thinking-box">
+              <span className="ux-label">UX THINKING</span>
+              <p>{project.ux}</p>
+            </div>
+
+            <div className="project-tags">
+              {project.tags.map((tag) => (
+                <span key={tag} className="project-tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <footer className="project-footer">
+            <TactileButton href={project.href} accent={project.accent} icon="open_in_new">
+              View Project
+            </TactileButton>
+          </footer>
+        </div>
+      </div>
     </motion.article>
   );
 }
@@ -465,7 +530,7 @@ function App() {
       <div className="noise-layer" />
       <header className="site-header">
         <a className="brand-mark" href="#top" aria-label="トップへ">
-          <span>TNK</span>
+          <span>'_'</span>
           <strong>Interaction Portfolio</strong>
         </a>
         <nav aria-label="Main navigation">
@@ -493,18 +558,16 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Electrical & Electronic Engineering Student / UI Explorer
+              PORTFOLIO
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.08 }}
             >
-              触れた瞬間、
+              触りたくなる
               <br />
-              少し楽しくなる
-              <br />
-              UIをつくる。
+              体験を作る
             </motion.h1>
             <motion.p
               className="hero-lead"
@@ -512,7 +575,7 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.16 }}
             >
-              電気電子工学を学びながら、
+              大学で電気電子工学を学びながら、
               <br />
               UI/UX、フロントエンド、のように
               <br />
@@ -538,25 +601,6 @@ function App() {
                 GitHub
               </TactileButton>
             </motion.div>
-            <motion.div
-              className="studio-notes"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.32 }}
-            >
-              {studioNotes.map((note) => {
-                const color = accents[note.accent];
-                return (
-                  <span
-                    key={note.label}
-                    style={{ "--note": color.bg, "--note-soft": color.soft } as React.CSSProperties}
-                  >
-                    <strong>{note.label}</strong>
-                    {note.value}
-                  </span>
-                );
-              })}
-            </motion.div>
           </div>
 
           <motion.div
@@ -572,8 +616,7 @@ function App() {
         <section className="about-section" id="about">
           <SectionTitle
             kicker="About Me"
-            title="電気電子の視点と、触れるUIへの好奇心。"
-            text="ポートフォリオでは、技術名だけではなく、なぜ作ったのか、どう使いやすくしたのか、次にどう改善するのかを見えるようにしています。"
+            title="自己紹介"
           />
           <div className="about-grid">
             <motion.div
@@ -584,14 +627,17 @@ function App() {
               transition={{ duration: 0.55 }}
             >
               <div className="avatar-disc">
-                <img src="https://github.com/Tanaka2006.png" alt="Tanaka2006 GitHub avatar" />
+                <img src="/assets/generated/about-smile-icon.png" alt="Tanaka2006 profile icon" />
               </div>
               <div>
-                <p className="mini-label">Japanese University Student</p>
-                <h3>Tanaka2006</h3>
+                <p className="mini-label">INTERACTION EXPLORER</p>
+                <h3>田中　梨菜</h3>
                 <p>
-                  学生生活の中で見つけた不便や、毎日使う画面の小さな違和感を、アプリやWeb UIとして試作しています。
-                  電気電子工学で学ぶ仕組みへの関心と、触った時の気持ちよさをつなげる制作が好きです。
+                学生生活の中で感じた「少し使いにくい」を、触れたくなるUIとして形にしています。
+                私は特に、見た目や操作感の細部にこだわることが好きです。
+                便利さだけではなく、「なんか好き」「触っていて気持ちいい」
+                そんな感覚まで含めて、プロダクトとして設計したいと思っています。
+                興味を持ったものにはすぐ飛び込み、試しながら形にしていくことも、自分らしいところです。
                 </p>
               </div>
             </motion.div>
@@ -625,8 +671,12 @@ function App() {
         <section className="projects-section" id="projects">
           <SectionTitle
             kicker="Selected Projects"
-            title="作った画面の温度まで、伝わるように。"
-            text="AI風の飾りではなく、実際に作っている機能を小さなUIとして再構成。課題、触り心地、改善意図が一緒に見えるカードにしました。"
+            title={
+              <>
+              作成したプロダクト
+              </>
+            }
+
           />
           <div className="project-stack">
             {projects.map((project, index) => (
@@ -638,22 +688,21 @@ function App() {
         <section className="skills-section" id="skills">
           <SectionTitle
             kicker="Skills"
-            title="技術を、体験を組み立てる部品として使う。"
-            text="実装、観察、改善のサイクルを回しながら、気持ちよく使えるプロダクトに近づけます。"
+            title="使用技術"
           />
           <div className="skill-console">
-            {skills.map(([title, ...items], groupIndex) => (
+            {skills.map((skill, groupIndex) => (
               <motion.div
                 className="skill-group"
-                key={title}
+                key={skill.title}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: groupIndex * 0.07, duration: 0.5 }}
               >
-                <h3>{title}</h3>
+                <h3>{skill.title}</h3>
                 <div>
-                  {items.map((item, itemIndex) => (
+                  {skill.items.map((item, itemIndex) => (
                     <motion.span
                       key={item}
                       whileHover={{
@@ -675,8 +724,7 @@ function App() {
         <section className="vision-section" id="vision">
           <SectionTitle
             kicker="Vision / Future"
-            title="問題を解くだけでなく、使う人の次の行動を軽くする。"
-            text="将来は、技術とデザインを横断して、暮らしや学びの中の小さな摩擦を楽しい体験へ変えられる人になりたいです。"
+            title="これから作りたい体験"
           />
           <div className="process-track">
             {processSteps.map((step, index) => (
@@ -704,8 +752,8 @@ function App() {
           >
             <Lightbulb size={28} />
             <p>
-              今後は、実機で触れるモバイル体験、通知やセンサーを使ったプロダクト、そしてマイクロインタラクションの質をさらに深めます。
-              「便利だから使う」から「気持ちいいから続く」へ、体験の理由まで設計していきます。
+            今後は、モバイルUIだけでなく、制御やハードウェア、通知やセンサーを含めた“触れる体験”そのものに興味があります。
+            実際に動かして試しながら、使いやすさや触れた時の印象まで考えられるプロダクトを作っていきたいです。
             </p>
           </motion.div>
         </section>
@@ -713,22 +761,23 @@ function App() {
         <section className="contact-section" id="contact">
           <div>
             <p className="mini-label">Contact</p>
-            <h2>一緒に、触りたくなる画面を考えたいです。</h2>
+            <h2>お問い合わせ</h2>
             <p>
-              UI/UX、フロントエンド、学生向けアプリ、ガジェット的なプロダクト体験に関心があります。
-              制作物やコードはGitHubで更新しています。
+              少しでも興味を持っていただけたら、ぜひお気軽にご連絡ください。
             </p>
           </div>
           <div className="contact-actions">
             <TactileButton href="https://github.com/Tanaka2006" accent="purple" icon="code">
               GitHubを見る
             </TactileButton>
-            <TactileButton href="mailto:hello@example.com" accent="orange" icon="mail">
+            <TactileButton href="rinatana1230@icloud.com" accent="orange" icon="mail">
               Contact
             </TactileButton>
           </div>
           <motion.div className="rocket-badge" whileHover={{ rotate: 8, scale: 1.06 }} whileTap={{ scale: 0.94 }}>
-            <Rocket size={36} />
+            <span className="material-icons" aria-hidden="true">
+              rocket_launch
+            </span>
           </motion.div>
         </section>
       </main>
